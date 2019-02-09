@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 
-import { GetActivityController } from './get-activity.controller';
+import { ActivityController } from './activity.controller';
+import { ActivitiesController } from './activities.controller';
 
 @Module({
-  controllers: [GetActivityController],
+  controllers: [ActivityController, ActivitiesController],
 })
 export class ActivityModule {}
