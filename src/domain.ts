@@ -7,6 +7,7 @@ const useCases = {
   get_activities_by_month: ActivityUseCaseFactory.getActivitiesByMonthUseCase(),
   get_activities_by_month_paginated: ActivityUseCaseFactory.getActivitiesByMonthPaginatedUseCase(),
   remove_activity: ActivityUseCaseFactory.removeActivityUseCase(),
+  get_user_by_telegram_id: UsersUseCaseFactory.getUserByTelegramIdUseCase(),
 };
 
 export const domain = new Domain({ useCases });
