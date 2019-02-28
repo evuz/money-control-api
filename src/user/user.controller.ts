@@ -1,17 +1,25 @@
-import { Get, Controller, Param, HttpException, HttpStatus } from '@nestjs/common';
-import { User } from 'money-control-domain';
+import { Post, Controller, Body } from '@nestjs/common';
+import { User, UserWithoutId } from 'money-control-domain';
 
 import { domain } from '../domain';
+import { UserRol } from 'money-control-domain/build/users/Entities/types';
+import { ILoginUserByEmail, ILoginUserByUsername } from 'money-control-domain/build/users/Repositories/UsersRepository';
 
 @Controller('user')
 export class UserController {
-  @Get('telegram/:id')
-  getActivity(@Param() { id }): Promise<User> {
-    return domain
-      .get({ useCase: 'get_user_by_telegram_id' })
-      .execute({ telegramId: id })
-      .catch(() => {
-        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-      });
+  @Post('register')
+  register(@Body() { user, password }: { user: UserWithoutId; password: string }): Promise<User> {
+    return domain.get({ useCase: 'register_user' }).execute({
+      password,
+      user: {
+        ...user,
+        rol: UserRol.User,
+      },
+    });
+  }
+
+  @Post('login')
+  login(@Body() params: ILoginUserByEmail | ILoginUserByUsername) {
+    return domain.get({ useCase: 'login_user' }).execute(params);
   }
 }
